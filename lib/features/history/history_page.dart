@@ -29,11 +29,13 @@ class _HistoryPageState extends State<HistoryPage> with AutomaticKeepAliveClient
 
       return ListView.separated(
         key: const PageStorageKey('history_list'),
+        padding: EdgeInsets.zero,
         itemCount: sessions.length,
-        separatorBuilder: (_, __) => const Divider(height: 1),
+        separatorBuilder: (_, __) => const SizedBox.shrink(),
         itemBuilder: (_, i) {
           final s = sessions[i];
           return ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             leading: AppAvatar(
               initials: s.userInitial,
               radius: 22,

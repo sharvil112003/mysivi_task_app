@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mysivi_task_app/app/utils/time_utils.dart';
 import 'package:mysivi_task_app/features/chat/widgets/word_bubble.dart';
@@ -58,6 +59,53 @@ class _ChatPageState extends State<ChatPage> {
     _scrollToBottom();
   }
 
+  void _showUserInfo() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        final mq = MediaQuery.of(ctx).size;
+        final dialogWidth = mq.width * 0.9;
+
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(16),
+          insetPadding: EdgeInsets.symmetric(horizontal: (mq.width - dialogWidth) / 2),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          content: SizedBox(
+            width: dialogWidth,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppAvatar(initials: user.initial, radius: 36 * (mq.width / 360), gradientColors: const [Color(0xFF4F7BFF), Color(0xFF7A4CFF), Color(0xFFB84BFF)]),
+                const SizedBox(height: 12),
+                Text(user.name, style: Theme.of(ctx).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
+                const SizedBox(height: 6),
+                Text('Last seen ${formatRelativeTime(user.createdAt)}', style: Theme.of(ctx).textTheme.bodySmall),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      child: const Text('Close'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await Clipboard.setData(ClipboardData(text: user.id));
+                        Navigator.of(ctx).pop();
+                        Get.snackbar('Copied', 'User ID copied to clipboard', snackPosition: SnackPosition.BOTTOM);
+                      },
+                      child: const Text('Copy ID'),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
@@ -73,15 +121,18 @@ class _ChatPageState extends State<ChatPage> {
             padding: EdgeInsets.all(8.0 * scale),
             child: Padding(
               padding: EdgeInsets.all(0),
-              child: AppAvatar(
-                initials: user.initial,
-                radius: 22 * scale,
-                isOnline: (user.createdAt.second % 2 != 0),
-                gradientColors: const [
-                  Color(0xFF4F7BFF), // blue
-                  Color(0xFF7A4CFF), // purple
-                  Color(0xFFB84BFF), // pink-purple
-                ],
+              child: GestureDetector(
+                onTap: _showUserInfo,
+                child: AppAvatar(
+                  initials: user.initial,
+                  radius: 22 * scale,
+                  isOnline: (user.createdAt.second % 2 != 0),
+                  gradientColors: const [
+                    Color(0xFF4F7BFF), // blue
+                    Color(0xFF7A4CFF), // purple
+                    Color(0xFFB84BFF), // pink-purple
+                  ],
+                ),
               ),
             ),
           ),

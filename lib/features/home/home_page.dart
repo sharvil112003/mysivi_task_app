@@ -60,6 +60,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 onPressed: () async {
                   final name = await showAddUserDialog(context);
                   if (name == null) return;
+
+                  final exists = usersC.users.any((u) => u.name.trim().toLowerCase() == name.trim().toLowerCase());
+                  if (exists) {
+                    CustomSnackbar.show(
+                      title: 'Duplicate',
+                      message: 'User with the same name already exists',
+                      type: AppSnackType.error,
+                    );
+                    return;
+                  }
+
                   await usersC.addUser(name);
                   CustomSnackbar.show(
                     title: 'User added',

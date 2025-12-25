@@ -31,44 +31,23 @@ class _UsersPageState extends State<UsersPage> with AutomaticKeepAliveClientMixi
 
       return ListView.separated(
         key: const PageStorageKey('users_list'),
+        padding: EdgeInsets.zero,
         itemCount: users.length,
-        separatorBuilder: (_, _) => const Divider(height: 1),
+        separatorBuilder: (_, __) => const SizedBox.shrink(),
         itemBuilder: (_, i) {
           final AppUser u = users[i];
           return ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             leading: AppAvatar(
-  radius: 22,
-  isOnline: (u.createdAt.second % 2 != 0),
-  backgroundColor: Colors.transparent,
-  child: Container(
-    width: 44,
-    height: 44,
-    decoration: const BoxDecoration(
-      shape: BoxShape.circle,
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFF4F7BFF), // blue
-          Color(0xFF7A4CFF), // purple
-          Color(0xFFB84BFF), // pink-purple
-        ],
-        stops: [0.0, 0.55, 1.0],
-      ),
-    ),
-    child: Center(
-      child: Text(
-        u.initial,
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
-          fontSize: 18,
-        ),
-      ),
-    ),
-  ),
-),
+              initials: u.initial,
+              radius: 22,
+              isOnline: (u.createdAt.second % 2 != 0),
+              gradientColors: const [
+                Color(0xFF4F7BFF), // blue
+                Color(0xFF7A4CFF), // purple
+                Color(0xFFB84BFF), // pink-purple
+              ],
+            ),
 
             title: Text(u.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 18)),
             subtitle: (u.createdAt.second % 2 == 0) ? Text('Last seen ${formatRelativeTime(u.createdAt)}') : Text('Online'),
