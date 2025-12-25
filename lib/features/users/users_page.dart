@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mysivi_task_app/app/routes/routes.dart';
+import 'package:mysivi_task_app/app/utils/time_utils.dart';
 import 'package:mysivi_task_app/app/utils/app_avatar.dart';
 import '../../data/models/app_user.dart';
 import 'users_controller.dart';
@@ -38,6 +39,7 @@ class _UsersPageState extends State<UsersPage> with AutomaticKeepAliveClientMixi
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             leading: AppAvatar(
   radius: 22,
+  isOnline: (u.createdAt.second % 2 != 0),
   backgroundColor: Colors.transparent,
   child: Container(
     width: 44,
@@ -69,7 +71,7 @@ class _UsersPageState extends State<UsersPage> with AutomaticKeepAliveClientMixi
 ),
 
             title: Text(u.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 18)),
-            subtitle: (u.createdAt.second%2 == 0) ? Text('Last seen ${DateTime.now().difference(u.createdAt)}') : Text('Online'),
+            subtitle: (u.createdAt.second % 2 == 0) ? Text('Last seen ${formatRelativeTime(u.createdAt)}') : Text('Online'),
             onTap: () => Get.toNamed(Routes.chat, arguments: u),
           );
         },

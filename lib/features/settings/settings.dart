@@ -10,6 +10,6 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Settings')));
+    return Scaffold(body: Center(child: Text('Settings',style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),)));
   }
 }

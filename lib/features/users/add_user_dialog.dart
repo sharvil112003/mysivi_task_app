@@ -14,18 +14,18 @@ Future<String?> showAddUserDialog(BuildContext context) async {
           decoration: InputDecoration(
             hintText: 'Enter name',
             hintStyle: Theme.of(dialogContext).inputDecorationTheme.hintStyle ?? Theme.of(dialogContext).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade600),
-            focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.blue)),
+            focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF2769FC))),
           ),
           autofocus: true,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel',style: Theme.of(dialogContext).textTheme.labelLarge?.copyWith(color: Colors.blue),),
+            child: Text('Cancel',style: Theme.of(dialogContext).textTheme.labelLarge?.copyWith(color: const Color(0xFF2769FC)),),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
+              backgroundColor: const Color(0xFF2769FC),
             ),
             onPressed: () {
               final name = controller.text.trim();

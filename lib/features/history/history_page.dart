@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:mysivi_task_app/app/routes/routes.dart';
 import 'package:mysivi_task_app/app/utils/app_avatar.dart';
+import 'package:mysivi_task_app/app/utils/time_utils.dart';
 import '../../data/models/app_user.dart';
 import 'history_controller.dart';
 
@@ -34,10 +34,18 @@ class _HistoryPageState extends State<HistoryPage> with AutomaticKeepAliveClient
         itemBuilder: (_, i) {
           final s = sessions[i];
           return ListTile(
-            leading: AppAvatar(initials: s.userInitial, radius: 20),
-            title: Text(s.userName),
+            leading: AppAvatar(
+              initials: s.userInitial,
+              radius: 22,
+              gradientColors: const [
+                Color.fromARGB(255, 92, 219, 173), // bright teal
+                Color.fromARGB(255, 84, 209, 190), // teal
+                Color.fromARGB(255, 11, 150, 74), // green
+              ],
+            ),
+            title: Text(s.userName, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 18)),
             subtitle: Text(s.lastMessage, maxLines: 1, overflow: TextOverflow.ellipsis),
-            trailing: Text(DateFormat('hh:mm a').format(s.lastTime)),
+            trailing: Text(formatRelativeTime(s.lastTime)),
             onTap: () {
               final u = AppUser(id: s.userId, name: s.userName, createdAt: DateTime.now());
               Get.toNamed(Routes.chat, arguments: u);

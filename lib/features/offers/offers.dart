@@ -10,6 +10,6 @@ class Offers extends StatefulWidget {
 class _OffersState extends State<Offers> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Offers')));
+    return Scaffold(body: Center(child: Text('Offers',style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),)));
   }
 }

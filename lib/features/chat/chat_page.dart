@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:mysivi_task_app/app/utils/time_utils.dart';
 import 'package:mysivi_task_app/features/chat/widgets/word_bubble.dart';
 import 'package:mysivi_task_app/app/utils/app_avatar.dart';
 import '../../data/models/app_user.dart';
@@ -59,6 +60,9 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
+    final scale = mq.size.width / 360;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(title: Row(
@@ -66,12 +70,13 @@ class _ChatPageState extends State<ChatPage> {
         // crossAxisAlignment:,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0 * scale),
             child: Padding(
-              padding: const EdgeInsets.all(0),
+              padding: EdgeInsets.all(0),
               child: AppAvatar(
                 initials: user.initial,
-                radius: 22,
+                radius: 22 * scale,
+                isOnline: (user.createdAt.second % 2 != 0),
                 gradientColors: const [
                   Color(0xFF4F7BFF), // blue
                   Color(0xFF7A4CFF), // purple
@@ -80,24 +85,24 @@ class _ChatPageState extends State<ChatPage> {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12 * scale),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(user.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 20)),
-              SizedBox(height: 4),
+              Text(user.name, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 20 * scale)),
+              SizedBox(height: 4 * scale),
               Text(
                 user.createdAt.second % 2 == 0
-                    ? 'Seen today at ${user.createdAt.hour}:${user.createdAt.minute}'
+                    ? 'Seen ${formatRelativeTime(user.createdAt)}'
                     : 'Online',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15, color: Colors.grey.shade600),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15 * scale, color: Colors.grey.shade600),
               ),
             ],
           ),
         ],
       ),backgroundColor: Colors.white,shape: Border.all(
         color: Colors.grey.shade300,
-        width: 2,
+        width: 2 * scale,
       ),),
       body: Column(
         children: [
@@ -108,15 +113,15 @@ class _ChatPageState extends State<ChatPage> {
 
               return ListView.builder(
                 controller: scrollC,
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                padding: EdgeInsets.symmetric(vertical: 12 * scale, horizontal: 12 * scale),
                 itemCount: msgs.length + extra,
                 itemBuilder: (_, i) {
                   if (c.isFetching.value && i == msgs.length) {
                     return Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text('Typing...', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 14, color: Colors.grey.shade700)),
+                        padding: EdgeInsets.only(top: 8 * scale),
+                        child: Text('Typing...', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 14 * scale, color: Colors.grey.shade700)),
                       ),
                     );
                   }
@@ -124,15 +129,22 @@ class _ChatPageState extends State<ChatPage> {
                   final m = msgs[i];
                   final isSender = m.type.name == 'sender';
 
-                  return MessageBubble(
-                    message: m,
-                    isSender: isSender,
-                    avatarInitial: isSender ? 'Y' : user.initial,
-                    onTap: () {
-                      if (!isSender && m.text.startsWith('Failed to load')) {
-                        c.retryReceiver();
-                      }
-                    },
+                  return Padding(
+                    padding: EdgeInsets.all(10.0 * scale),
+                    child: Column(
+                      children: [
+                        MessageBubble(
+                          message: m,
+                          isSender: isSender,
+                          avatarInitial: isSender ? 'Y' : user.initial,
+                          onTap: () {
+                            if (!isSender && m.text.startsWith('Failed to load')) {
+                              c.retryReceiver();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   );
                 },
               );
@@ -141,20 +153,20 @@ class _ChatPageState extends State<ChatPage> {
           SafeArea(
   top: false,
   child: Padding(
-    padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+    padding: EdgeInsets.fromLTRB(12 * scale, 8 * scale, 12 * scale, 12 * scale),
     child: Row(
-      children: [
+      children: [ 
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 12 * scale, vertical: 6 * scale),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: Colors.blue.withOpacity(0.25)),
-              boxShadow: const [
+              borderRadius: BorderRadius.circular(28 * scale),
+              border: Border.all(color: const Color(0xFF2769FC).withOpacity(0.25)),
+              boxShadow: [
                 BoxShadow(
-                  blurRadius: 10,
-                  offset: Offset(0, 4),
+                  blurRadius: 10 * scale,
+                  offset: Offset(0, 4 * scale),
                   color: Colors.black12,
                 ),
               ],
@@ -164,11 +176,11 @@ class _ChatPageState extends State<ChatPage> {
                 IconButton(
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                  constraints: BoxConstraints(minWidth: 36 * scale, minHeight: 36 * scale),
                   onPressed: () {},
-                  icon: Icon(Icons.emoji_emotions_outlined, color: Colors.blue.withOpacity(0.75)),
+                  icon: Icon(Icons.emoji_emotions_outlined, color: const Color(0xFF2769FC).withOpacity(0.75)),
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: 6 * scale),
                 Expanded(
                   child: TextField(
                     controller: inputC,
@@ -177,7 +189,7 @@ class _ChatPageState extends State<ChatPage> {
                     textInputAction: TextInputAction.send,
                     decoration: InputDecoration(
                       hintText: 'Type a message...',
-                      hintStyle: Theme.of(context).inputDecorationTheme.hintStyle ?? Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 16, color: Colors.grey.shade600),
+                      hintStyle: Theme.of(context).inputDecorationTheme.hintStyle ?? Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 16 * scale, color: Colors.grey.shade600),
                       border: InputBorder.none,
                       isDense: true,
                     ),
@@ -187,29 +199,29 @@ class _ChatPageState extends State<ChatPage> {
                 IconButton(
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+                  constraints: BoxConstraints(minWidth: 36 * scale, minHeight: 36 * scale),
                   onPressed: () {},
-                  icon: Icon(Icons.attach_file, color: Colors.blue.withOpacity(0.75)),
+                  icon: Icon(Icons.attach_file, color: const Color(0xFF2769FC).withOpacity(0.75)),
                 ),
               ],
             ),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10 * scale),
         GestureDetector(
           onTap: _send,
           child: Container(
-            width: 48,
-            height: 48,
+            width: 48 * scale,
+            height: 48 * scale,
             decoration: const BoxDecoration(
-              color: Colors.blue,
+              color: Color(0xFF2769FC),
               shape: BoxShape.circle,
             ),
             child: Center(
               child: Icon(
                 LucideIcons.sendHorizontal,
                 color: Colors.white,
-                size: 22,
+                size: 22 * scale,
               ),
             ),
           ),

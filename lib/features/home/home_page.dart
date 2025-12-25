@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         backgroundColor: Colors.white,
         floatingActionButton: homeC.tabIndex.value == 0
             ? FloatingActionButton(
-              backgroundColor: Colors.blue,
+              backgroundColor: const Color(0xFF2769FC),
               shape: const CircleBorder(),
                 onPressed: () async {
                   final name = await showAddUserDialog(context);

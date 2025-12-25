@@ -20,7 +20,7 @@ Future<void> main() async {
       ],
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2769FC)),
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
@@ -36,7 +36,7 @@ Future<void> main() async {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(textStyle: GoogleFonts.poppins(fontWeight: FontWeight.w700)),
         ),
-        iconTheme: const IconThemeData(color: Colors.blue),
+        iconTheme: const IconThemeData(color: Color(0xFF2769FC)),
         ),
     ),
   );

@@ -9,6 +9,8 @@ class AppAvatar extends StatelessWidget {
   final List<Color>? gradientColors;
   final Color? backgroundColor;
   final TextStyle? textStyle;
+  final bool isOnline;
+  final Color? onlineColor;
 
   const AppAvatar({
     super.key,
@@ -18,6 +20,8 @@ class AppAvatar extends StatelessWidget {
     this.gradientColors,
     this.backgroundColor,
     this.textStyle,
+    this.isOnline = false,
+    this.onlineColor,
   }) : assert(initials != null || child != null, 'Either initials or child must be provided.');
 
   @override
@@ -40,12 +44,39 @@ class AppAvatar extends StatelessWidget {
 
     final defaultTextStyle = textStyle ?? Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w700, fontSize: radius * 0.8);
 
-    return Container(
+    // indicator size scales with radius
+    final indicatorSize = radius * 0.65;
+    final indicatorBorderWidth = (radius * 0.12).clamp(1.0, 4.0);
+
+    return SizedBox(
       width: size,
       height: size,
-      decoration: dec,
-      child: Center(
-        child: child ?? Text(initials ?? '', style: defaultTextStyle, textAlign: TextAlign.center),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: size,
+            height: size,
+            decoration: dec,
+            child: Center(
+              child: child ?? Text(initials ?? '', style: defaultTextStyle, textAlign: TextAlign.center),
+            ),
+          ),
+          if (isOnline)
+            Positioned(
+              right: -indicatorSize * 0.18,
+              bottom: -indicatorSize * 0.18,
+              child: Container(
+                width: indicatorSize,
+                height: indicatorSize,
+                decoration: BoxDecoration(
+                  color: onlineColor ?? const Color(0xFF34C759),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: indicatorBorderWidth),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

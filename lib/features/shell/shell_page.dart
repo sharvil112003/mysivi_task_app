@@ -25,7 +25,7 @@ class ShellPage extends StatelessWidget {
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
-          selectedItemColor: Colors.blue,
+          selectedItemColor: const Color(0xFF2769FC),
           selectedLabelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
           unselectedLabelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w500),
           unselectedItemColor: Colors.black,
