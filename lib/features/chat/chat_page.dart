@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mysivi_task_app/features/chat/widgets/word_bubble.dart';
 import '../../data/models/app_user.dart';
 import '../../data/repos/chat_repo.dart';
@@ -58,7 +59,11 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(user.name)),
+      backgroundColor: Colors.white,
+      appBar: AppBar(title: Text(user.name),backgroundColor: Colors.white,shape: Border.all(
+        color: Colors.grey.shade300,
+        width: 2,
+      ),),
       body: Column(
         children: [
           Expanded(
@@ -110,13 +115,16 @@ class _ChatPageState extends State<ChatPage> {
                       decoration: const InputDecoration(
                         hintText: 'Type a message...',
                         border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                        ),
                       ),
                       onSubmitted: (_) => _send(),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 15),
                   IconButton(
-                    icon: const Icon(Icons.send),
+                    icon: CircleAvatar(backgroundColor: Colors.blue,child: const Icon(LucideIcons.sendHorizontal,color:Colors.black,size: 25,),),
                     onPressed: _send,
                   ),
                 ],

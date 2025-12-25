@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mysivi_task_app/features/offers/offers.dart';
 import 'package:mysivi_task_app/features/settings/settings.dart';
 import 'shell_controller.dart';
@@ -23,12 +25,17 @@ class ShellPage extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.blue,
+          selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+          unselectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+          unselectedItemColor: Colors.black,
           currentIndex: c.index.value,
           onTap: c.setIndex,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(LucideIcons.messageCircleMore), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.local_offer_outlined), label: 'Offers'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+            BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
           ],
         ),
       );

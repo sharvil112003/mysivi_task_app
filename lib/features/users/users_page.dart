@@ -30,12 +30,45 @@ class _UsersPageState extends State<UsersPage> with AutomaticKeepAliveClientMixi
       return ListView.separated(
         key: const PageStorageKey('users_list'),
         itemCount: users.length,
-        separatorBuilder: (_, __) => const Divider(height: 1),
+        separatorBuilder: (_, _) => const Divider(height: 1),
         itemBuilder: (_, i) {
           final AppUser u = users[i];
           return ListTile(
-            leading: CircleAvatar(child: Text(u.initial)),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: CircleAvatar(
+  radius: 22,
+  backgroundColor: Colors.transparent,
+  child: Container(
+    width: 44,
+    height: 44,
+    decoration: const BoxDecoration(
+      shape: BoxShape.circle,
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFF4F7BFF), // blue
+          Color(0xFF7A4CFF), // purple
+          Color(0xFFB84BFF), // pink-purple
+        ],
+        stops: [0.0, 0.55, 1.0],
+      ),
+    ),
+    child: Center(
+      child: Text(
+        u.initial,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+          fontSize: 16,
+        ),
+      ),
+    ),
+  ),
+),
+
             title: Text(u.name),
+            subtitle: (u.createdAt.second%2 == 0) ? Text('Last seen ${DateTime.now().difference(u.createdAt)}') : Text('Online'),
             onTap: () => Get.toNamed(Routes.chat, arguments: u),
           );
         },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mysivi_task_app/app/utils/custom_snackbar.dart';
 import '../../data/repos/chat_repo.dart';
 import '../../data/repos/users_repo.dart';
 import '../history/history_controller.dart';
@@ -51,32 +52,35 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     return Obx(() {
       return Scaffold(
+        backgroundColor: Colors.white,
         floatingActionButton: homeC.tabIndex.value == 0
             ? FloatingActionButton(
+              backgroundColor: Colors.blue,
+              shape: const CircleBorder(),
                 onPressed: () async {
                   final name = await showAddUserDialog(context);
                   if (name == null) return;
                   await usersC.addUser(name);
-                  Get.snackbar(
-                    'User added',
-                    name,
-                    snackPosition: SnackPosition.BOTTOM,
-                    margin: const EdgeInsets.all(12),
+                  CustomSnackbar.show(
+                    title: 'User added',
+                    message: name,
+                    type: AppSnackType.success,
                   );
                 },
-                child: const Icon(Icons.add),
+                child: const Icon(Icons.add,color: Colors.white,),
               )
             : null,
         body: NestedScrollView(
-          headerSliverBuilder: (_, __) {
+          headerSliverBuilder: (_, _) {
             return [
               SliverAppBar(
+                backgroundColor: Colors.white,
                 floating: true,
                 snap: true,
                 title: Center(
                   child: SegmentedSwitcher(
                     leftLabel: 'Users',
-                    rightLabel: 'History',
+                    rightLabel: 'Chat History',
                     index: homeC.tabIndex.value,
                     onChanged: (i) {
                       homeC.setTab(i);
