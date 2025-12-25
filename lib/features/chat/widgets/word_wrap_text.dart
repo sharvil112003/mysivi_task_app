@@ -37,20 +37,20 @@ class WordTapText extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 showDragHandle: true,
-                builder: (_) {
+                builder: (BuildContext ctx) {
                   return Padding(
                     padding: const EdgeInsets.all(16),
                     child: meanings.isEmpty
-                        ? Text('No meaning found for "$cleaned".')
+                        ? Text('No meaning found for "$cleaned".', style: Theme.of(ctx).textTheme.bodyMedium)
                         : Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(cleaned, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                              Text(cleaned, style: Theme.of(ctx).textTheme.titleMedium?.copyWith(fontSize: 18, fontWeight: FontWeight.w700)),
                               const SizedBox(height: 12),
                               for (final m in meanings) Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
-                                child: Text('• $m'),
+                                child: Text('• $m', style: Theme.of(ctx).textTheme.bodyMedium),
                               ),
                             ],
                           ),

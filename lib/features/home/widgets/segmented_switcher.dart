@@ -48,12 +48,12 @@ class SegmentedSwitcher extends StatelessWidget {
               ),
               Row(
                 children: [
-                  _tapArea(
+                          _tapArea(context,
                     label: leftLabel,
                     selected: index == 0,
                     onTap: () => onChanged(0),
                   ),
-                  _tapArea(
+                  _tapArea(context,
                     label: rightLabel,
                     selected: index == 1,
                     onTap: () => onChanged(1),
@@ -67,7 +67,7 @@ class SegmentedSwitcher extends StatelessWidget {
     );
   }
 
-  Widget _tapArea({
+  Widget _tapArea(BuildContext context, {
     required String label,
     required bool selected,
     required VoidCallback onTap,
@@ -80,7 +80,7 @@ class SegmentedSwitcher extends StatelessWidget {
           child: AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 180),
             curve: Curves.easeOut,
-            style: TextStyle(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontSize: 14,
               fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
               color: selected ? Colors.black : Colors.grey.shade600,

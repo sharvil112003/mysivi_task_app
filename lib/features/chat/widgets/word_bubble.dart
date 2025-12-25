@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mysivi_task_app/app/utils/app_avatar.dart';
 import 'package:mysivi_task_app/features/chat/widgets/word_wrap_text.dart';
 import '../../../data/models/chat_message.dart';
 
@@ -31,7 +32,8 @@ class MessageBubble extends StatelessWidget {
             mainAxisAlignment: isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (!isSender) CircleAvatar(radius: 14, child: Text(avatarInitial)),
+              if (!isSender) AppAvatar(initials: avatarInitial, radius: 14, textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+              
               if (!isSender) const SizedBox(width: 8),
               Flexible(
                 child: Container(
@@ -39,12 +41,12 @@ class MessageBubble extends StatelessWidget {
                   decoration: BoxDecoration(color: bubbleColor, borderRadius: radius),
                   child: WordTapText(
                     text: message.text,
-                    style: const TextStyle(color: Colors.black),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.black),
                   ),
                 ),
               ),
               if (isSender) const SizedBox(width: 8),
-              if (isSender) CircleAvatar(radius: 14, child: Text(avatarInitial)),
+              if (isSender) AppAvatar(initials: avatarInitial, radius: 14, textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
             ],
           ),
         ),

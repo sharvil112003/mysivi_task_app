@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mysivi_task_app/app/utils/app_avatar.dart';
 
 enum AppSnackType { success, info, error }
 
@@ -51,7 +52,6 @@ class CustomSnackbar {
       case AppSnackType.error:
         return const Color(0xFFB3261E);
       case AppSnackType.info:
-      default:
         return const Color(0xFF1A4B8C);
     }
   }
@@ -63,7 +63,6 @@ class CustomSnackbar {
       case AppSnackType.error:
         return Icons.error;
       case AppSnackType.info:
-      default:
         return Icons.info;
     }
   }
@@ -112,13 +111,11 @@ class _SnackCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (initials != null)
-              CircleAvatar(
+              AppAvatar(
+                initials: initials,
                 radius: 18,
                 backgroundColor: Colors.white.withOpacity(0.18),
-                child: Text(
-                  initials,
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                ),
+                textStyle: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w700),
               )
             else
               Container(
@@ -139,18 +136,14 @@ class _SnackCard extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 14),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     message,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white, fontSize: 13, height: 1.2),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontSize: 13, height: 1.2),
                   ),
                   if (actionLabel != null && onAction != null) ...[
                     const SizedBox(height: 8),
@@ -171,7 +164,7 @@ class _SnackCard extends StatelessWidget {
                         },
                         child: Text(
                           actionLabel!,
-                          style: const TextStyle(fontWeight: FontWeight.w700),
+                          style: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700),
                         ),
                       ),
                     ),

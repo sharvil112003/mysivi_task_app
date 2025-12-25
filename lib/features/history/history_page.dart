@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mysivi_task_app/app/routes/routes.dart';
+import 'package:mysivi_task_app/app/utils/app_avatar.dart';
 import '../../data/models/app_user.dart';
 import 'history_controller.dart';
 
@@ -33,7 +34,7 @@ class _HistoryPageState extends State<HistoryPage> with AutomaticKeepAliveClient
         itemBuilder: (_, i) {
           final s = sessions[i];
           return ListTile(
-            leading: CircleAvatar(child: Text(s.userInitial)),
+            leading: AppAvatar(initials: s.userInitial, radius: 20),
             title: Text(s.userName),
             subtitle: Text(s.lastMessage, maxLines: 1, overflow: TextOverflow.ellipsis),
             trailing: Text(DateFormat('hh:mm a').format(s.lastTime)),
