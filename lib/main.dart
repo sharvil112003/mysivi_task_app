@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mysivi_task_app/home_page/home_page.dart';
+import 'package:mysivi_task_app/app/routes/routes.dart';
+import 'data/hive/hive_service.dart';
+import 'features/shell/shell_page.dart';
+import 'features/chat/chat_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveService.init();
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Flutter Demo',
+  runApp(
+    GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: Routes.shell,
+      getPages: [
+        GetPage(name: Routes.shell, page: () => const ShellPage()),
+        GetPage(name: Routes.chat, page: () => const ChatPage()),
+      ],
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-      home: const HomePage(),
-    );
-  }
+    ),
+  );
 }
-
-
