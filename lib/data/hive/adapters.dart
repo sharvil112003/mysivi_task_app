@@ -85,12 +85,23 @@ class ChatSessionAdapter extends TypeAdapter<ChatSession> {
     final lastMessage = reader.readString();
     final lastTimeMillis = reader.readInt();
 
+    // lastVisited was added later; older records won't have it. Try reading
+    // it, but default to epoch 0 if not present.
+    DateTime lastVisited = DateTime.fromMillisecondsSinceEpoch(0);
+    try {
+      final lastVisitedMillis = reader.readInt();
+      lastVisited = DateTime.fromMillisecondsSinceEpoch(lastVisitedMillis);
+    } catch (_) {
+      // ignore and keep default
+    }
+
     return ChatSession(
       userId: userId,
       userName: userName,
       userInitial: userInitial,
       lastMessage: lastMessage,
       lastTime: DateTime.fromMillisecondsSinceEpoch(lastTimeMillis),
+      lastVisited: lastVisited,
     );
   }
 
@@ -101,5 +112,6 @@ class ChatSessionAdapter extends TypeAdapter<ChatSession> {
     writer.writeString(obj.userInitial);
     writer.writeString(obj.lastMessage);
     writer.writeInt(obj.lastTime.millisecondsSinceEpoch);
+    writer.writeInt(obj.lastVisited.millisecondsSinceEpoch);
   }
 }

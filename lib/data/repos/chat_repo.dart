@@ -36,10 +36,21 @@ class ChatRepo {
         userInitial: user.initial,
         lastMessage: lastMessage,
         lastTime: time,
+        lastVisited: DateTime.fromMillisecondsSinceEpoch(0),
       );
       await box.put(user.id, session);
     } else {
       await box.put(user.id, existing.copyWith(lastMessage: lastMessage, lastTime: time));
     }
+  }
+
+  /// Mark the session as visited now, so messages before this time are
+  /// considered read/unseen and won't show as unread in the history badge.
+  Future<void> markSessionVisited(String userId, {DateTime? at}) async {
+    final box = HiveService.sessionsBox();
+    final existing = box.get(userId);
+    if (existing == null) return;
+    final now = at ?? DateTime.now();
+    await box.put(userId, existing.copyWith(lastVisited: now));
   }
 }

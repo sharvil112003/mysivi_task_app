@@ -4,6 +4,9 @@ class ChatSession {
   final String userInitial;
   final String lastMessage;
   final DateTime lastTime;
+  /// Timestamp of when the user last opened/visited this chat. Messages with
+  /// time greater than this are considered "unread".
+  final DateTime lastVisited;
 
   ChatSession({
     required this.userId,
@@ -11,11 +14,13 @@ class ChatSession {
     required this.userInitial,
     required this.lastMessage,
     required this.lastTime,
+    required this.lastVisited,
   });
 
   ChatSession copyWith({
     String? lastMessage,
     DateTime? lastTime,
+    DateTime? lastVisited,
   }) {
     return ChatSession(
       userId: userId,
@@ -23,6 +28,7 @@ class ChatSession {
       userInitial: userInitial,
       lastMessage: lastMessage ?? this.lastMessage,
       lastTime: lastTime ?? this.lastTime,
+      lastVisited: lastVisited ?? this.lastVisited,
     );
   }
 }

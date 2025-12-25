@@ -26,7 +26,7 @@ class MessageBubble extends StatelessWidget {
     final bubbleColor = isSender ? const Color(0xFF2769FC) : Colors.grey.shade200;
 
     // Responsive measurements
-    final avatarRadius = 22 * scale;
+    final avatarRadius = 15 * (mq.size.width / 360);
     final avatarDiameter = avatarRadius * 2;
     final horizontalSpacing = 8 * scale;
     final verticalPadding = 6 * scale;
@@ -95,7 +95,7 @@ class MessageBubble extends StatelessWidget {
                       ),
                       child: WordTapText(
                         text: message.text,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: isSender ? Colors.white : Colors.black),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: isSender ? Colors.white : Colors.black,fontSize: 13 * scale),
                       ),
                     ),
                     SizedBox(height: 4 * scale),

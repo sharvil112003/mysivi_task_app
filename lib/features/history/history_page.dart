@@ -34,6 +34,9 @@ class _HistoryPageState extends State<HistoryPage> with AutomaticKeepAliveClient
         separatorBuilder: (_, __) => const SizedBox.shrink(),
         itemBuilder: (_, i) {
           final s = sessions[i];
+          final now = DateTime.now();
+          final showCount = now.difference(s.lastTime) <= const Duration(minutes: 10);
+          final recentCount = showCount ? historyC.recentMessageCount(s.userId) : 0;
           return ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             leading: AppAvatar(
@@ -47,11 +50,34 @@ class _HistoryPageState extends State<HistoryPage> with AutomaticKeepAliveClient
             ),
             title: Text(s.userName, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 18)),
             subtitle: Text(s.lastMessage, maxLines: 1, overflow: TextOverflow.ellipsis),
-            trailing: Text(formatRelativeTime(s.lastTime)),
-            onTap: () {
+            trailing: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(formatRelativeTime(s.lastTime)),
+                if (recentCount > 0) ...[
+                  const SizedBox(height: 6),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF2769FC),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '$recentCount',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            onTap: () async {
+              // Mark as visited so unread/recent badge disappears.
+              await historyC.markSessionVisited(s.userId);
               final u = AppUser(id: s.userId, name: s.userName, createdAt: DateTime.now());
               Get.toNamed(Routes.chat, arguments: u);
             },
+
           );
         },
       );
