@@ -138,7 +138,7 @@ Add your license here (e.g., MIT). If this is a private project you may choose a
 ---
 
 ## Links
-- APK: [Add APK link here]
-- Demo video: [Add demo video link here]
+- [APK]: (https://drive.google.com/file/d/1qNJPpw1OFgJTLoLPrmsOpJHFmCChwKoM/view?usp=drive_link)
+- [Demo video]: (https://drive.google.com/file/d/1rEFaqvxYcFLFeQpZjb2Ozz9SvABniN7x/view?usp=sharing)
 
 ---
