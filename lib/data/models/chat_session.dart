@@ -4,8 +4,6 @@ class ChatSession {
   final String userInitial;
   final String lastMessage;
   final DateTime lastTime;
-  /// Timestamp of when the user last opened/visited this chat. Messages with
-  /// time greater than this are considered "unread".
   final DateTime lastVisited;
 
   ChatSession({

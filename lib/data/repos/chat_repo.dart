@@ -44,8 +44,6 @@ class ChatRepo {
     }
   }
 
-  /// Mark the session as visited now, so messages before this time are
-  /// considered read/unseen and won't show as unread in the history badge.
   Future<void> markSessionVisited(String userId, {DateTime? at}) async {
     final box = HiveService.sessionsBox();
     final existing = box.get(userId);

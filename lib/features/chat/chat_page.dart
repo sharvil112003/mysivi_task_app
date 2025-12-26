@@ -92,7 +92,7 @@ class _ChatPageState extends State<ChatPage> {
                       onPressed: () async {
                         await Clipboard.setData(ClipboardData(text: user.id));
                         Navigator.of(ctx).pop();
-                        Get.snackbar('Copied', 'User ID copied to clipboard', snackPosition: SnackPosition.BOTTOM);
+                        Get.snackbar('Copied', 'User ID copied to clipboard', snackPosition: SnackPosition.TOP);
                       },
                       child: const Text('Copy ID'),
                     ),

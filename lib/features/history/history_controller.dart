@@ -19,8 +19,6 @@ class HistoryController extends GetxController {
     sessions.value = repo.allSessionsSorted();
   }
 
-  /// Returns the number of incoming (receiver) messages for [userId] within the given [window]
-  /// and that were sent *after* the session's lastVisited time (i.e., unread incoming messages).
   int recentMessageCount(String userId, {Duration window = const Duration(minutes: 10)}) {
     final msgs = repo.messagesForUser(userId);
     final now = DateTime.now();
@@ -29,7 +27,6 @@ class HistoryController extends GetxController {
     return msgs.where((m) => m.type == MessageType.receiver && m.time.isAfter(session.lastVisited) && m.time.isAfter(cutoff)).length;
   }
 
-  /// Mark a session as visited (messages before this time count as read).
   Future<void> markSessionVisited(String userId) async {
     await repo.markSessionVisited(userId);
     refreshSessions();

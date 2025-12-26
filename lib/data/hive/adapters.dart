@@ -85,14 +85,11 @@ class ChatSessionAdapter extends TypeAdapter<ChatSession> {
     final lastMessage = reader.readString();
     final lastTimeMillis = reader.readInt();
 
-    // lastVisited was added later; older records won't have it. Try reading
-    // it, but default to epoch 0 if not present.
     DateTime lastVisited = DateTime.fromMillisecondsSinceEpoch(0);
     try {
       final lastVisitedMillis = reader.readInt();
       lastVisited = DateTime.fromMillisecondsSinceEpoch(lastVisitedMillis);
     } catch (_) {
-      // ignore and keep default
     }
 
     return ChatSession(
